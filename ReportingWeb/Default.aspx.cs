@@ -84,24 +84,36 @@ public partial class _Default : Page
             // =========================================
 
             string tableName = "";
+            string reportPath = "";
+                
             if (empCategory == "OFFICER")
             {
                 tableName = $"MasterOfficer_Pay_{mnt}_{year}";
+               
             }
             else if (empCategory == "STAFF")
             {
                 // TABLE
                 tableName = $"MasterStaff_Pay_{mnt}_{year}";
+                reportName = "PaySlipOfficer_Staff";
+                reportPath = Server.MapPath(
+                    $"~/{dbName}/{reportName}.rpt");
             }
             else if (empCategory == "NPS")
             {
                 // TABLE
                 tableName = $"MasterWorkerNps_Pay_{mnt}_{year}";
+                reportName = "PaySlipOfficer_NPS";
+                reportPath = Server.MapPath(
+                    $"~/{dbName}/{reportName}.rpt");
             }
             else if (empCategory == "WAGES")
             {
                 // TABLE
                 tableName = $"MasterWorkerWages_Pay_{mnt}_{year}";
+                reportName = "PaySlipOfficer_Wages";
+                reportPath = Server.MapPath(
+                    $"~/{dbName}/{reportName}.rpt");
             }
 
             // =========================================
@@ -150,9 +162,9 @@ public partial class _Default : Page
             // 7. REPORT PATH
             // =========================================
 
-            string reportPath =
-                Server.MapPath(
-                    $"~/{dbName}/{reportName}.rpt");
+            //string reportPath =
+            //    Server.MapPath(
+            //        $"~/{dbName}/{reportName}.rpt");
 
             if (!System.IO.File.Exists(reportPath))
             {
@@ -395,7 +407,7 @@ public partial class _Default : Page
             // =========================================
 
             if (string.IsNullOrEmpty(reportName))
-                reportName = "BankLetter";
+                reportName = "BankLetterAgrani"; 
 
             if (string.IsNullOrEmpty(dbName))
                 throw new Exception("Database missing");
