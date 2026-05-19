@@ -88,8 +88,11 @@ public partial class _Default : Page
                 
             if (empCategory == "OFFICER")
             {
+
                 tableName = $"MasterOfficer_Pay_{mnt}_{year}";
-               
+                reportName = "PaySlipOfficer_LHB";
+                reportPath = Server.MapPath(
+                    $"~/{dbName}/{reportName}.rpt");
             }
             else if (empCategory == "STAFF")
             {
