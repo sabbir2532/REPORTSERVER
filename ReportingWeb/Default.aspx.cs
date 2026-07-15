@@ -27,6 +27,10 @@ public partial class _Default : Page
             {
                 GenerateBill();
             }
+            else if (Request.QueryString["action"] == "tax")
+            {
+                GenerateTax();
+            }
         }
 
     }
@@ -699,5 +703,138 @@ public partial class _Default : Page
             }
         }
     }
+    private void GenerateTax()
+    {
+        ReportDocument crp = null;
 
+        try
+        {
+            // =====================================
+            // PARAMETERS
+            // =====================================
+
+            string empno = Request.QueryString["empno"];
+            string empCategory = Request.QueryString["empCategory"];
+            string type = Request.QueryString["Type"];
+            string dbName = Request.QueryString["key"];
+            string reportName = Request.QueryString["reportName"];
+
+            if (string.IsNullOrEmpty(reportName))
+                reportName = "TaxCalculation_officeR";
+
+            if (string.IsNullOrEmpty(dbName))
+                throw new Exception("Database missing");
+
+            if (string.IsNullOrEmpty(empCategory))
+                throw new Exception("Emp Category missing");
+
+            // =====================================
+            // CONNECTION
+            // =====================================
+
+            string connectionString =
+       $"Server=103.7.112.190,1433;" +
+       $"Database={dbName};" +
+       $"User Id=myuser;" +
+       $"Password=1234;" +
+       $"TrustServerCertificate=True;";
+
+            // =====================================
+            // TABLE NAME - Based on Type parameter
+            // =====================================
+
+            string tableName = "";
+
+            // Map Type parameter to appropriate table name
+            switch (type)
+            {
+                case "INVESTMENT":
+                    tableName = "TaxCal"; // Replace with actual table name
+                    reportName = "Investment";
+                    break;
+                case "ASSESSMENT":
+                    tableName = "TaxCal"; // Replace with actual table name
+                    reportName = "TaxCalculation_officeR";
+                    break;
+                case "CHALLAN":
+                    tableName = "IncomeCertificate"; // Replace with actual table name
+                    reportName = "IncomeTaxCer_details";
+                    break;
+                default:
+                    throw new Exception("Invalid Type parameter");
+            }
+
+            // Use reportName from querystring or default
+            string reportFileName = string.IsNullOrEmpty(reportName) ? "TaxCalculation_officeR" : reportName;
+
+            // =====================================
+            // QUERY - Use actual table name from mapping
+            // =====================================
+
+            string query = $@"
+        SELECT *
+        FROM [{tableName}]
+        WHERE (@empno IS NULL OR empno = @empno)";
+
+            DataSet ds = new DataSet();
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@empno",
+                    string.IsNullOrEmpty(empno) ? (object)DBNull.Value : empno);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(ds);
+            }
+
+            if (ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No data found");
+
+            // =====================================
+            // REPORT LOAD - Use reportFileName
+            // =====================================
+
+            string reportPath =
+                Server.MapPath($"~/{dbName}/{reportFileName}.rpt");
+
+            if (!System.IO.File.Exists(reportPath))
+                throw new Exception($"Report file not found: {reportPath}");
+
+            crp = new ReportDocument();
+            crp.Load(reportPath);
+            crp.SetDataSource(ds.Tables[0]);
+
+            // =====================================
+            // EXPORT PDF
+            // =====================================
+
+            Response.Clear();
+            Response.Buffer = false;
+
+            // Generate appropriate filename based on type
+           
+
+        crp.ExportToHttpResponse(
+            ExportFormatType.PortableDocFormat,
+            Response,
+            false,
+            "aaa"
+        );
+    }
+    catch (Exception ex)
+    {
+        Response.Clear();
+        Response.ContentType = "text/html";
+        Response.Write($"<h3>Tax Report Error</h3>{ex.Message}");
+    }
+    finally
+    {
+        if (crp != null)
+        {
+            crp.Close();
+            crp.Dispose();
+        }
+    }
+}
 }
