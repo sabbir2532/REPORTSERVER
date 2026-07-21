@@ -744,25 +744,50 @@ public partial class _Default : Page
             // =====================================
 
             string tableName = "";
-
-            // Map Type parameter to appropriate table name
-            switch (type)
+            //BASED ON EMPCATEGORY
+            if (empCategory == "OFFICER")
             {
-                case "INVESTMENT":
-                    tableName = "TaxCal"; // Replace with actual table name
-                    reportName = "Investment";
-                    break;
-                case "ASSESSMENT":
-                    tableName = "TaxCal"; // Replace with actual table name
-                    reportName = "TaxCalculation_officeR";
-                    break;
-                case "CHALLAN":
-                    tableName = "IncomeCertificate"; // Replace with actual table name
-                    reportName = "IncomeTaxCer_details";
-                    break;
-                default:
-                    throw new Exception("Invalid Type parameter");
+                switch (type)
+                {
+                    case "INVESTMENT":
+                        tableName = "TaxCal"; // Replace with actual table name
+                        reportName = "Investment";
+                        break;
+                    case "ASSESSMENT":
+                        tableName = "TaxCal"; // Replace with actual table name
+                        reportName = "TaxCalculation_officeR";
+                        break;
+                    case "CHALLAN":
+                        tableName = "IncomeCertificate"; // Replace with actual table name
+                        reportName = "IncomeTaxCer_details";
+                        break;
+                    default:
+                        throw new Exception("Invalid Type parameter");
+                }
+
             }
+            else if(empCategory == "STAFF")
+            {
+                switch (type)
+                {
+                    case "INVESTMENT":
+                        tableName = "TaxCal_Staff"; // Replace with actual table name
+                        reportName = "Investment";
+                        break;
+                    case "ASSESSMENT":
+                        tableName = "TaxCal_Staff"; // Replace with actual table name
+                        reportName = "TaxCalculation_officeR";
+                        break;
+                    case "CHALLAN":
+                        tableName = "IncomeCertificate_Staff"; // Replace with actual table name
+                        reportName = "IncomeTaxCer_details";
+                        break;
+                    default:
+                        throw new Exception("Invalid Type parameter");
+                }
+            }
+            // Map Type parameter to appropriate table name
+     
 
             // Use reportName from querystring or default
             string reportFileName = string.IsNullOrEmpty(reportName) ? "TaxCalculation_officeR" : reportName;
@@ -774,7 +799,7 @@ public partial class _Default : Page
             string query = $@"
         SELECT *
         FROM [{tableName}]
-        WHERE (@empno IS NULL OR empno = @empno)";
+        WHERE (@empno IS NULL OR empno = @empno) ORDER BY DEPTCODE";
 
             DataSet ds = new DataSet();
 
