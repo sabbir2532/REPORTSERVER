@@ -329,6 +329,7 @@ public partial class _Default : Page
             SELECT *
             FROM [{tableName}]
             WHERE BNKNAM = @bankName
+            order by ACNO
             ";
 
             DataSet ds = new DataSet();
