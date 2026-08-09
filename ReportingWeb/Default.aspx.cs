@@ -11,6 +11,7 @@ public partial class _Default : Page
     {
         if (!IsPostBack)
         {
+
             if (Request.QueryString["action"] == "pdf")
             {
                 GenerateReport();
