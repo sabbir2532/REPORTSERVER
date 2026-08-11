@@ -746,6 +746,7 @@ public partial class _Default : Page
             // =====================================
 
             string tableName = "";
+            string orderby = "DEPTCODE";
             //BASED ON EMPCATEGORY
             if (empCategory == "OFFICER")
             {
@@ -762,6 +763,7 @@ public partial class _Default : Page
                     case "CHALLAN":
                         tableName = "IncomeCertificate"; // Replace with actual table name
                         reportName = "IncomeTaxCer_details";
+                        orderby = "Flag";
                         break;
                     default:
                         throw new Exception("Invalid Type parameter");
@@ -783,6 +785,7 @@ public partial class _Default : Page
                     case "CHALLAN":
                         tableName = "IncomeCertificate_Staff"; // Replace with actual table name
                         reportName = "IncomeTaxCer_details";
+                        orderby = "Flag";
                         break;
                     default:
                         throw new Exception("Invalid Type parameter");
@@ -801,7 +804,7 @@ public partial class _Default : Page
             string query = $@"
         SELECT *
         FROM [{tableName}]
-        WHERE (@empno IS NULL OR empno = @empno) ORDER BY DEPTCODE";
+        WHERE (@empno IS NULL OR empno = @empno) ORDER BY {orderby}";
 
             DataSet ds = new DataSet();
 
