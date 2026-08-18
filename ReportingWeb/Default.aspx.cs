@@ -32,6 +32,10 @@ public partial class _Default : Page
             {
                 GenerateTax();
             }
+            else if (Request.QueryString["action"] == "CCSum")
+            {
+                GenerateCCSUM();
+            }
         }
 
     }
@@ -867,4 +871,129 @@ public partial class _Default : Page
         }
     }
 }
+
+    private void GenerateCCSUM()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            // =====================================
+            // PARAMETERS
+            // =====================================
+
+            string empno = Request.QueryString["empno"];
+            string empCategory = Request.QueryString["empCategory"];
+            string mnt = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+            string dbName = Request.QueryString["key"];
+            string reportName = Request.QueryString["reportName"];
+
+            if (string.IsNullOrEmpty(reportName))
+                reportName = "CCSum";
+
+            if (string.IsNullOrEmpty(dbName))
+                throw new Exception("Database missing");
+
+            if (string.IsNullOrEmpty(empCategory))
+                throw new Exception("Emp Category missing");
+
+            // =====================================
+            // CONNECTION
+            // =====================================
+
+            string connectionString =
+       $"Server=103.7.112.190,1433;" +
+       $"Database={dbName};" +
+       $"User Id=myuser;" +
+       $"Password=1234;" +
+       $"TrustServerCertificate=True;";
+
+            // =====================================
+            // TABLE NAME
+            // =====================================
+
+            string tableName = "";
+
+            if (empCategory == "OFFICER")
+                tableName = $"MasterOfficer_Pay_{mnt}_{year}";
+            else if (empCategory == "STAFF")
+                tableName = $"MasterStaff_Pay_{mnt}_{year}";
+            else if (empCategory == "NPS")
+                tableName = $"MasterWorkerNps_Pay_{mnt}_{year}";
+            else if (empCategory == "WAGES")
+                tableName = $"MasterWorkerWages_Pay_{mnt}_{year}";
+            else
+                throw new Exception("Invalid Category");
+
+            // =====================================
+            // QUERY
+            // =====================================
+
+            string query = $@"
+            SELECT *
+            FROM [{tableName}]
+            WHERE (@empno IS NULL OR empno = @empno)
+            ORDER BY ccod, empno
+        ";
+
+            DataSet ds = new DataSet();
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@empno",
+                    string.IsNullOrEmpty(empno) ? (object)DBNull.Value : empno);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(ds);
+            }
+
+            if (ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No data found");
+
+            // =====================================
+            // REPORT LOAD
+            // =====================================
+
+            string reportPath =
+                Server.MapPath($"~/{dbName}/{reportName}.rpt");
+
+            if (!System.IO.File.Exists(reportPath))
+                throw new Exception("Report file not found");
+
+            crp = new ReportDocument();
+            crp.Load(reportPath);
+            crp.SetDataSource(ds.Tables[0]);
+
+            // =====================================
+            // EXPORT PDF
+            // =====================================
+
+            Response.Clear();
+            Response.Buffer = false;
+
+            crp.ExportToHttpResponse(
+                ExportFormatType.PortableDocFormat,
+                Response,
+                false,
+                "CCSUMReport"
+
+            );
+        }
+        catch (Exception ex)
+        {
+            Response.Clear();
+            Response.ContentType = "text/html";
+            Response.Write($"<h3>Bill Report Error</h3>{ex.Message}");
+        }
+        finally
+        {
+            if (crp != null)
+            {
+                crp.Close();
+                crp.Dispose();
+            }
+        }
+    }
 }
