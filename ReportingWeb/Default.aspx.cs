@@ -784,6 +784,10 @@ public partial class _Default : Page
                         break;
                     case "ASSESSMENT":
                         tableName = "TaxCal_Staff"; // Replace with actual table name
+                        if (dbName == "JFCL_PAY")
+                        {
+                            reportName = "TaxCalculation_StaffR";
+                        }else
                         reportName = "TaxCalculation_officeR";
                         break;
                     case "CHALLAN":
