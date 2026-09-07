@@ -799,8 +799,29 @@ public partial class _Default : Page
                         throw new Exception("Invalid Type parameter");
                 }
             }
+            else if (empCategory == "JROFFICER")
+            {
+                switch (type)
+                {
+                    case "INVESTMENT":
+                        tableName = "TaxCal"; // Replace with actual table name
+                        reportName = "Investment";
+                        break;
+                    case "ASSESSMENT":
+                        tableName = "TaxCal"; // Replace with actual table name
+                        reportName = "TaxCalculation_StaffR";
+                        break;
+                    case "CHALLAN":
+                        tableName = "IncomeCertificate_Staff"; // Replace with actual table name
+                        reportName = "IncomeTaxCer_details";
+                        orderby = "Flag";
+                        break;
+                    default:
+                        throw new Exception("Invalid Type parameter");
+                }
+            }
             // Map Type parameter to appropriate table name
-     
+
 
             // Use reportName from querystring or default
             string reportFileName = string.IsNullOrEmpty(reportName) ? "TaxCalculation_officeR" : reportName;
