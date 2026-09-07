@@ -829,11 +829,22 @@ public partial class _Default : Page
             // =====================================
             // QUERY - Use actual table name from mapping
             // =====================================
+            string query = "";
+            if (empCategory == "JROFFICER")
+            {
 
-            string query = $@"
+                 query = $@"
+        SELECT *
+        FROM [{tableName}]
+        WHERE (@empno IS NULL OR empno = @empno) AND PFPLC=4 ORDER BY {orderby}";
+            }
+            else {
+                query = $@"
         SELECT *
         FROM [{tableName}]
         WHERE (@empno IS NULL OR empno = @empno) ORDER BY {orderby}";
+
+            }
 
             DataSet ds = new DataSet();
 
