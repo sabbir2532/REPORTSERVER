@@ -1088,7 +1088,6 @@ public partial class _Default : Page
                 default: throw new Exception("Invalid Category");
             }
 
-            // Basic sanity check on the built identifier
             if (!System.Text.RegularExpressions.Regex.IsMatch(
                     tableName, @"^[A-Za-z0-9_]+$"))
                 throw new Exception("Invalid table name");
@@ -1098,6 +1097,9 @@ public partial class _Default : Page
             // =====================================
             string query = $@"
         SELECT
+            [YEAR],
+            [MONTH],
+
             /* ---------------- EARNINGS ---------------- */
             SUM(ISNULL(BASIC_EARN,0))            AS BASIC_EARN,
             SUM(ISNULL(HOUSERENTALW_AUTO,0))     AS HOUSERENTALW_AUTO,
@@ -1254,7 +1256,8 @@ public partial class _Default : Page
               + ISNULL(ADDIPFCONTRI_OWN_AUTO,0)
               + ISNULL(HOUSERENT_DED,0)
             ) AS NETPAY
-        FROM [{tableName}];
+        FROM [{tableName}]
+        GROUP BY [YEAR], [MONTH];
         ";
 
             DataSet ds = new DataSet();
@@ -1272,7 +1275,7 @@ public partial class _Default : Page
             // =====================================
             // REPORT LOAD
             // =====================================
-            string reportPath = Server.MapPath($"~/{dbName}/PaySummary/{reportName}.rpt");
+            string reportPath = Server.MapPath($"~/{dbName}/{reportName}.rpt");
 
             if (!System.IO.File.Exists(reportPath))
                 throw new Exception("Report file not found");
