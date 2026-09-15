@@ -1301,7 +1301,7 @@ public partial class _Default : Page
         {
             Response.Clear();
             Response.ContentType = "text/html";
-            Response.Write($"<h3>Bill Report Error</h3>{ex.Message}");
+            Response.Write($"<h3>Pay Summary Report Error</h3>{ex.Message}");
         }
         finally
         {
