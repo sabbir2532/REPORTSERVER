@@ -1275,7 +1275,7 @@ public partial class _Default : Page
             // =====================================
             // REPORT LOAD
             // =====================================
-            string reportPath = Server.MapPath($"~/{dbName}/{reportName}.rpt");
+            string reportPath = Server.MapPath($"~/{dbName}/PaySummary/{reportName}.rpt");
 
             if (!System.IO.File.Exists(reportPath))
                 throw new Exception("Report file not found");
