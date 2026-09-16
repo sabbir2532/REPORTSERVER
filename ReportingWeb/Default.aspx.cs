@@ -971,10 +971,171 @@ public partial class _Default : Page
             // =====================================
 
             string query = $@"
-            SELECT *
-            FROM [{tableName}]
-            WHERE (@empno IS NULL OR empno = @empno)
-            ORDER BY ccod, empno
+    SELECT
+     CCOD, [YEAR],
+     [MONTH],
+     MIN(CNAME) AS CNAME,                          -- SECTION NAME
+     COUNT(DISTINCT EMPNO) AS TOTALEMPNUMBER,   -- Total Employee Number
+
+     /* ---------------- EARNINGS ---------------- */
+     SUM(ISNULL(BASIC_EARN,0))            AS BASIC_EARN,
+     SUM(ISNULL(HOUSERENTALW_AUTO,0))     AS HOUSERENTALW_AUTO,
+     SUM(ISNULL(ARBAS,0))                 AS ARBAS,
+     SUM(ISNULL(ARBON,0))                 AS ARBON,
+     SUM(ISNULL(ARHR,0))                  AS ARHR,
+     SUM(ISNULL(ARTIFALW,0))              AS ARTIFALW,
+     SUM(ISNULL(ARMEDALW,0))              AS ARMEDALW,
+     SUM(ISNULL(ARGASALW,0))              AS ARGASALW,
+     SUM(ISNULL(ARWASALW,0))              AS ARWASALW,
+     SUM(ISNULL(ARSFTALW,0))              AS ARSFTALW,
+     SUM(ISNULL(ARTRNSALW,0))             AS ARTRNSALW,
+     SUM(ISNULL(ARTELALW,0))              AS ARTELALW,
+     SUM(ISNULL(CanteenAlw,0))            AS CanteenAlw,
+     SUM(ISNULL(MEDALW,0))                AS MEDALW,
+     SUM(ISNULL(TIFALW,0))                AS TIFALW,
+     SUM(ISNULL(GASALW,0))                AS GASALW,
+     SUM(ISNULL(WASALW,0))                AS WASALW,
+     SUM(ISNULL(SBENEFITALW,0))           AS SBENEFITALW,
+     SUM(ISNULL(CONALW,0))                AS CONALW,
+     SUM(ISNULL(CHRALW,0))                AS CHRALW,
+     SUM(ISNULL(SFTALW,0))                AS SFTALW,
+     SUM(ISNULL(TELEALW,0))               AS TELEALW,
+     SUM(ISNULL(HILLALW,0))               AS HILLALW,
+     SUM(ISNULL(HONOR,0))                 AS HONOR,
+     SUM(ISNULL(EDUALW,0))                AS EDUALW,
+     SUM(ISNULL(RISKALW,0))               AS RISKALW,
+     SUM(ISNULL(NIGHTSHIFTALW,0))         AS NIGHTSHIFTALW,
+     SUM(ISNULL(MISADD,0))                AS MISADD,
+
+     /* ---------------- DEDUCTIONS ---------------- */
+     SUM(ISNULL(APFDED,0))                AS APFDED,
+     SUM(ISNULL(AAPFDED,0))               AS AAPFDED,
+     SUM(ISNULL(AHRDED,0))                AS AHRDED,
+     SUM(ISNULL(MEDDED,0))                AS MEDDED,
+     SUM(ISNULL(TRNDED,0))                AS TRNDED,
+     SUM(ISNULL(TELDED,0))                AS TELDED,
+     SUM(ISNULL(LHBDED,0))                AS LHBDED,
+     SUM(ISNULL(SALDED,0))                AS SALDED,
+     SUM(ISNULL(INCOMETAXDED,0))          AS INCOMETAXDED,
+     SUM(ISNULL(MCDED,0))                 AS MCDED,
+     SUM(ISNULL(HBDED,0))                 AS HBDED,
+     SUM(ISNULL(PFDED,0))                 AS PFDED,
+     SUM(ISNULL(WFDED,0))                 AS WFDED,
+     SUM(ISNULL(LHB_INTEREST_DED,0))      AS LHB_INTEREST_DED,
+     SUM(ISNULL(LCWFDD,0))                AS LCWFDD,
+     SUM(ISNULL(FACILITYDED,0))           AS FACILITYDED,
+     SUM(ISNULL(SCHOOLDED,0))             AS SCHOOLDED,
+     SUM(ISNULL(ELECTCHRG,0))             AS ELECTCHRG,
+     SUM(ISNULL(GASCHRG,0))               AS GASCHRG,
+     SUM(ISNULL(FURCHRG,0))               AS FURCHRG,
+     SUM(ISNULL(HAZCHRG,0))               AS HAZCHRG,
+     SUM(ISNULL(OFFCLBCHRG,0))            AS OFFCLBCHRG,
+     SUM(ISNULL(EMPCLBCHRG,0))            AS EMPCLBCHRG,
+     SUM(ISNULL(WFCHRG,0))                AS WFCHRG,
+     SUM(ISNULL(LADCLBCHRG,0))            AS LADCLBCHRG,
+     SUM(ISNULL(SANATANCHRG,0))           AS SANATANCHRG,
+     SUM(ISNULL(MOSQUECHRG,0))            AS MOSQUECHRG,
+     SUM(ISNULL(DON_COM_CHRG,0))          AS DON_COM_CHRG,
+     SUM(ISNULL(DON_INDI_CHRG,0))         AS DON_INDI_CHRG,
+     SUM(ISNULL(CHEM_SCTY_CHRG,0))        AS CHEM_SCTY_CHRG,
+     SUM(ISNULL(DIPLOCHRG,0))             AS DIPLOCHRG,
+     SUM(ISNULL(ENGGCHRG,0))              AS ENGGCHRG,
+     SUM(ISNULL(HRCHRG,0))                AS HRCHRG,
+     SUM(ISNULL(DISHCHRG,0))              AS DISHCHRG,
+     SUM(ISNULL(CBACHRG,0))               AS CBACHRG,
+     SUM(ISNULL(HIBICHRG,0))              AS HIBICHRG,
+     SUM(ISNULL(REVDED,0))                AS REVDED,
+     SUM(ISNULL(PFCONTRI_OWN_AUTO,0))     AS PFCONTRI_OWN_AUTO,
+     SUM(ISNULL(ADDIPFCONTRI_OWN_AUTO,0)) AS ADDIPFCONTRI_OWN_AUTO,
+     SUM(ISNULL(HOUSERENT_DED,0))         AS HOUSERENT_DED,
+
+     /* ---------------- COMPUTED TOTALS ---------------- */
+     SUM(
+         ISNULL(BASIC_EARN,0)
+       + ISNULL(HOUSERENTALW_AUTO,0)
+       + ISNULL(ARBAS,0)          + ISNULL(ARBON,0)
+       + ISNULL(ARHR,0)           + ISNULL(ARTIFALW,0)
+       + ISNULL(ARMEDALW,0)       + ISNULL(ARGASALW,0)
+       + ISNULL(ARWASALW,0)       + ISNULL(ARSFTALW,0)
+       + ISNULL(ARTRNSALW,0)      + ISNULL(ARTELALW,0)
+       + ISNULL(CanteenAlw,0)     + ISNULL(MEDALW,0)
+       + ISNULL(TIFALW,0)         + ISNULL(GASALW,0)
+       + ISNULL(WASALW,0)         + ISNULL(SBENEFITALW,0)
+       + ISNULL(CONALW,0)         + ISNULL(CHRALW,0)
+       + ISNULL(SFTALW,0)         + ISNULL(TELEALW,0)
+       + ISNULL(HILLALW,0)        + ISNULL(HONOR,0)
+       + ISNULL(EDUALW,0)         + ISNULL(RISKALW,0)
+       + ISNULL(NIGHTSHIFTALW,0)  + ISNULL(MISADD,0)
+     ) AS GROSSPAY,
+
+     SUM(
+         ISNULL(APFDED,0)           + ISNULL(AAPFDED,0)
+       + ISNULL(AHRDED,0)           + ISNULL(MEDDED,0)
+       + ISNULL(TRNDED,0)           + ISNULL(TELDED,0)
+       + ISNULL(LHBDED,0)           + ISNULL(SALDED,0)
+       + ISNULL(INCOMETAXDED,0)     + ISNULL(MCDED,0)
+       + ISNULL(HBDED,0)            + ISNULL(PFDED,0)
+       + ISNULL(WFDED,0)            + ISNULL(LHB_INTEREST_DED,0)
+       + ISNULL(LCWFDD,0)           + ISNULL(FACILITYDED,0)
+       + ISNULL(SCHOOLDED,0)        + ISNULL(ELECTCHRG,0)
+       + ISNULL(GASCHRG,0)          + ISNULL(FURCHRG,0)
+       + ISNULL(HAZCHRG,0)          + ISNULL(OFFCLBCHRG,0)
+       + ISNULL(EMPCLBCHRG,0)       + ISNULL(WFCHRG,0)
+       + ISNULL(LADCLBCHRG,0)       + ISNULL(SANATANCHRG,0)
+       + ISNULL(MOSQUECHRG,0)       + ISNULL(DON_COM_CHRG,0)
+       + ISNULL(DON_INDI_CHRG,0)    + ISNULL(CHEM_SCTY_CHRG,0)
+       + ISNULL(DIPLOCHRG,0)        + ISNULL(ENGGCHRG,0)
+       + ISNULL(HRCHRG,0)           + ISNULL(DISHCHRG,0)
+       + ISNULL(CBACHRG,0)          + ISNULL(REVDED,0)
+       + ISNULL(HIBICHRG,0)         + ISNULL(PFCONTRI_OWN_AUTO,0)
+       + ISNULL(ADDIPFCONTRI_OWN_AUTO,0)
+       + ISNULL(HOUSERENT_DED,0)
+     ) AS TOTALDED,
+
+     SUM(
+         ISNULL(BASIC_EARN,0)
+       + ISNULL(HOUSERENTALW_AUTO,0)
+       + ISNULL(ARBAS,0)          + ISNULL(ARBON,0)
+       + ISNULL(ARHR,0)           + ISNULL(ARTIFALW,0)
+       + ISNULL(ARMEDALW,0)       + ISNULL(ARGASALW,0)
+       + ISNULL(ARWASALW,0)       + ISNULL(ARSFTALW,0)
+       + ISNULL(ARTRNSALW,0)      + ISNULL(ARTELALW,0)
+       + ISNULL(CanteenAlw,0)     + ISNULL(MEDALW,0)
+       + ISNULL(TIFALW,0)         + ISNULL(GASALW,0)
+       + ISNULL(WASALW,0)         + ISNULL(SBENEFITALW,0)
+       + ISNULL(CONALW,0)         + ISNULL(CHRALW,0)
+       + ISNULL(SFTALW,0)         + ISNULL(TELEALW,0)
+       + ISNULL(HILLALW,0)        + ISNULL(HONOR,0)
+       + ISNULL(EDUALW,0)         + ISNULL(RISKALW,0)
+       + ISNULL(NIGHTSHIFTALW,0)  + ISNULL(MISADD,0)
+     )
+     -
+     SUM(
+         ISNULL(APFDED,0)           + ISNULL(AAPFDED,0)
+       + ISNULL(AHRDED,0)           + ISNULL(MEDDED,0)
+       + ISNULL(TRNDED,0)           + ISNULL(TELDED,0)
+       + ISNULL(LHBDED,0)           + ISNULL(SALDED,0)
+       + ISNULL(INCOMETAXDED,0)     + ISNULL(MCDED,0)
+       + ISNULL(HBDED,0)            + ISNULL(PFDED,0)
+       + ISNULL(WFDED,0)            + ISNULL(LHB_INTEREST_DED,0)
+       + ISNULL(LCWFDD,0)           + ISNULL(FACILITYDED,0)
+       + ISNULL(SCHOOLDED,0)        + ISNULL(ELECTCHRG,0)
+       + ISNULL(GASCHRG,0)          + ISNULL(FURCHRG,0)
+       + ISNULL(HAZCHRG,0)          + ISNULL(OFFCLBCHRG,0)
+       + ISNULL(EMPCLBCHRG,0)       + ISNULL(WFCHRG,0)
+       + ISNULL(LADCLBCHRG,0)       + ISNULL(SANATANCHRG,0)
+       + ISNULL(MOSQUECHRG,0)       + ISNULL(DON_COM_CHRG,0)
+       + ISNULL(DON_INDI_CHRG,0)    + ISNULL(CHEM_SCTY_CHRG,0)
+       + ISNULL(DIPLOCHRG,0)        + ISNULL(ENGGCHRG,0)
+       + ISNULL(HRCHRG,0)           + ISNULL(DISHCHRG,0)
+       + ISNULL(CBACHRG,0)          + ISNULL(REVDED,0)
+       + ISNULL(HIBICHRG,0)         + ISNULL(PFCONTRI_OWN_AUTO,0)
+       + ISNULL(ADDIPFCONTRI_OWN_AUTO,0)
+       + ISNULL(HOUSERENT_DED,0)
+     ) AS NETPAY
+ FROM MasterOfficer_Pay_August_2026
+ GROUP BY CCOD, [YEAR],
+     [MONTH];
         ";
 
             DataSet ds = new DataSet();
