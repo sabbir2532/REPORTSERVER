@@ -1133,7 +1133,7 @@ public partial class _Default : Page
        + ISNULL(ADDIPFCONTRI_OWN_AUTO,0)
        + ISNULL(HOUSERENT_DED,0)
      ) AS NETPAY
- FROM MasterOfficer_Pay_August_2026
+  FROM [{tableName}]
  GROUP BY CCOD, [YEAR],
      [MONTH];
         ";
