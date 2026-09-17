@@ -1613,7 +1613,7 @@ public partial class _Default : Page
             // =====================================
 
             string reportPath =
-                Server.MapPath($"~/{dbName}/{reportName}.rpt");
+                Server.MapPath($"~/{dbName}/NETPAY/{reportName}.rpt");
 
             if (!System.IO.File.Exists(reportPath))
                 throw new Exception("Report file not found");
