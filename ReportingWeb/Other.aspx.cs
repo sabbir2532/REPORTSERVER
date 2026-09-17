@@ -139,20 +139,38 @@ public partial class Other : System.Web.UI.Page
             ValidateParameters(dbName, category);
 
             string connectionString = GetConnectionString(dbName);
-            string tableName = GetTableName(category, month, year);
-
+            string tableName = "";
+            if (category == "OFFICER")
+            {
+                tableName = $"MasterOfficer_Pay_{month}_{year}";
+            }
+            else if (category == "STAFF")
+            {
+                // TABLE
+                tableName = $"MasterStaff_Pay_{month}_{year}";
+            }
+            else if (category == "NPS")
+            {
+                // TABLE
+                tableName = $"MasterWorkerNps_Pay_{month}_{year}";
+            }
+            else if (category == "WAGES")
+            {
+                // TABLE
+                tableName = $"MasterWorkerWages_Pay_{month}_{year}";
+            }
             string query = $@"
-                SELECT EMPNO, EMPNAME, PFAMNT, PFADV, TOTPF 
+                SELECT *
                 FROM [{tableName}]
-                WHERE PFAMNT > 0 OR PFADV > 0
-                ORDER BY EMPNO";
+                WHERE PFCONTRI_OWN_AUTO > 0 OR ADDIPFCONTRI_OWN_AUTO > 0 OR APFDED > 0 OR AAPFDED > 0
+                ORDER BY CCOD";
 
             DataSet ds = GetData(connectionString, query);
 
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No PF data found for the selected category");
 
-            crp = LoadReport(dbName, "PFStatement", ds);
+            crp = LoadReport(dbName, "PFStatement","PF", ds);
             ExportReport(crp, "PFStatement");
         }
         catch (Exception ex)
@@ -687,6 +705,18 @@ public partial class Other : System.Web.UI.Page
     }
 
     private ReportDocument LoadReport(string dbName, string reportName, DataSet ds)
+    {
+        ReportDocument crp = new ReportDocument();
+        string reportPath = Server.MapPath($"~/{dbName}/{reportName}.rpt");
+
+        if (!System.IO.File.Exists(reportPath))
+            throw new Exception($"Report file not found: {reportName}.rpt");
+
+        crp.Load(reportPath);
+        crp.SetDataSource(ds.Tables[0]);
+        return crp;
+    }
+    private ReportDocument LoadReport(string dbName, string reportName,string folder, DataSet ds)
     {
         ReportDocument crp = new ReportDocument();
         string reportPath = Server.MapPath($"~/{dbName}/{reportName}.rpt");
