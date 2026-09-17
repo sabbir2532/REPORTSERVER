@@ -719,7 +719,7 @@ public partial class Other : System.Web.UI.Page
     private ReportDocument LoadReport(string dbName, string reportName,string folder, DataSet ds)
     {
         ReportDocument crp = new ReportDocument();
-        string reportPath = Server.MapPath($"~/{dbName}/{reportName}.rpt");
+        string reportPath = Server.MapPath($"~/{dbName}/{folder}/{reportName}.rpt");
 
         if (!System.IO.File.Exists(reportPath))
             throw new Exception($"Report file not found: {reportName}.rpt");
