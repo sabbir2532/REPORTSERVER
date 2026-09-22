@@ -1264,7 +1264,7 @@ public partial class _Default : Page
         SELECT
             [YEAR],
             [MONTH],
-
+            COUNT(EMPNO) AS TOTALEMP,
             /* ---------------- EARNINGS ---------------- */
             SUM(ISNULL(BASIC_EARN,0))            AS BASIC_EARN,
             SUM(ISNULL(HOUSERENTALW_AUTO,0))     AS HOUSERENTALW_AUTO,
@@ -1543,6 +1543,9 @@ public partial class _Default : Page
             DESG,
             CCOD,
             CNAME,
+            BNKNAM,
+            ACNO,
+            NEWBAS,
             [MONTH],
             [YEAR],
 
