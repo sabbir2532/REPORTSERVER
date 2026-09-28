@@ -366,20 +366,24 @@ public partial class Other : System.Web.UI.Page
             ValidateParameters(dbName, category);
 
             string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
             string tableName = GetTableName(category, month, year);
 
             string query = $@"
-                SELECT EMPNO, EMPNAME, MCLOAN, MCLOANADV 
+                SELECT *
                 FROM [{tableName}]
-                WHERE MCLOAN > 0
+                WHERE MCLOANBLN > 0
                 ORDER BY EMPNO";
 
             DataSet ds = GetData(connectionString, query);
 
             if (ds.Tables[0].Rows.Count == 0)
-                throw new Exception("No M.C Loan (BCIC) data found for the selected category");
+                throw new Exception("No M.C Loan  data found for the selected category");
 
-            crp = LoadReport(dbName, "MCLoanBCIC", ds);
+            crp = LoadReport(dbName, "MC","MC", ds);
             ExportReport(crp, "MCLoanBCIC");
         }
         catch (Exception ex)
