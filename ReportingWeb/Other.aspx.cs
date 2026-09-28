@@ -281,9 +281,9 @@ public partial class Other : System.Web.UI.Page
             string tableName = GetTableName(category, month, year);
 
             string query = $@"
-                SELECT EMPNO, EMPNAME, HBLOCAL, HBLOCALADV 
+                SELECT *
                 FROM [{tableName}]
-                WHERE HBLOCAL > 0
+                WHERE LHBBLN > 0
                 ORDER BY EMPNO";
 
             DataSet ds = GetData(connectionString, query);
@@ -291,7 +291,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No Local HB Loan data found for the selected category");
 
-            crp = LoadReport(dbName, "LocalHBLoan", ds);
+            crp = LoadReport(dbName, "LocalHBLoan", "LCHBLOAN", ds);
             ExportReport(crp, "LocalHBLoan");
         }
         catch (Exception ex)
