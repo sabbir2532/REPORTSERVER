@@ -280,7 +280,7 @@ public partial class Other : System.Web.UI.Page
             string connectionString = GetConnectionString(dbName);
             if (category == "NPS")
                 category = "WorkerNps";
-            else if (category == "Wages")
+            else if (category == "WAGES")
                 category = "WorkerWages";
             string tableName = GetTableName(category, month, year);
 
