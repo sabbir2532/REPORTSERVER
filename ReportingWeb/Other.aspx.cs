@@ -322,12 +322,16 @@ public partial class Other : System.Web.UI.Page
             ValidateParameters(dbName, category);
 
             string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
             string tableName = GetTableName(category, month, year);
 
             string query = $@"
-                SELECT EMPNO, EMPNAME, HBAMNT, HBADV 
+                SELECT *
                 FROM [{tableName}]
-                WHERE HBAMNT > 0
+                WHERE HBLOANBLN > 0
                 ORDER BY EMPNO";
 
             DataSet ds = GetData(connectionString, query);
@@ -335,7 +339,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No HB Loan (BCIC) data found for the selected category");
 
-            crp = LoadReport(dbName, "HBLoanBCIC", ds);
+            crp = LoadReport(dbName, "HBLoanBCIC","HBLOAN", ds);
             ExportReport(crp, "HBLoanBCIC");
         }
         catch (Exception ex)
