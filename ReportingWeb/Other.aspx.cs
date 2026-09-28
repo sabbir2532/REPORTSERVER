@@ -278,6 +278,10 @@ public partial class Other : System.Web.UI.Page
             ValidateParameters(dbName, category);
 
             string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "Wages")
+                category = "WorkerWages";
             string tableName = GetTableName(category, month, year);
 
             string query = $@"
