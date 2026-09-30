@@ -807,6 +807,58 @@ public partial class _Default : Page
                         throw new Exception("Invalid Type parameter");
                 }
             }
+            else if (empCategory == "NPS")
+            {
+                switch (type)
+                {
+                    case "INVESTMENT":
+                        tableName = "TaxCal_NPS"; // Replace with actual table name
+                        reportName = "Investment";
+                        break;
+                    case "ASSESSMENT":
+                        tableName = "TaxCal_NPS"; // Replace with actual table name
+                        if (dbName == "JFCL_PAY")
+                        {
+                            reportName = "TaxCalculation_StaffR";
+                        }
+                        else
+                            reportName = "TaxCalculation_officeR";
+                        break;
+                    case "CHALLAN":
+                        tableName = "IncomeCertificate_Staff"; // Replace with actual table name
+                        reportName = "IncomeTaxCer_details";
+                        orderby = "Flag";
+                        break;
+                    default:
+                        throw new Exception("Invalid Type parameter");
+                }
+            }
+            else if (empCategory == "WAGES")
+            {
+                switch (type)
+                {
+                    case "INVESTMENT":
+                        tableName = "TaxCal_WAGES"; // Replace with actual table name
+                        reportName = "Investment";
+                        break;
+                    case "ASSESSMENT":
+                        tableName = "TaxCal_WAGES"; // Replace with actual table name
+                        if (dbName == "JFCL_PAY")
+                        {
+                            reportName = "TaxCalculation_StaffR";
+                        }
+                        else
+                            reportName = "TaxCalculation_officeR";
+                        break;
+                    case "CHALLAN":
+                        tableName = "IncomeCertificate_Staff"; // Replace with actual table name
+                        reportName = "IncomeTaxCer_details";
+                        orderby = "Flag";
+                        break;
+                    default:
+                        throw new Exception("Invalid Type parameter");
+                }
+            }
             else if (empCategory == "JROFFICER")
             {
                 switch (type)
