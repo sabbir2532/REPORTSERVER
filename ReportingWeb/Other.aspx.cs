@@ -410,20 +410,114 @@ public partial class Other : System.Web.UI.Page
             ValidateParameters(dbName, category);
 
             string connectionString = GetConnectionString(dbName);
-            string tableName = GetTableName(category, month, year);
-
-            string query = $@"
-                SELECT EMPNO, EMPNAME, PFLOAN, PFLOANADV 
+            string tableName = "";
+            string query = "";
+            string reportname = "";
+            if (category == "OFFICER-1")
+            {
+                tableName = $"MasterOfficer_Pay_{month}_{year}";
+                reportname = "PFLOAN";
+                query = $@"
+                SELECT *
                 FROM [{tableName}]
-                WHERE PFLOAN > 0
-                ORDER BY EMPNO";
+                WHERE PFLOANBLN> 0
+                AND PFPLC=1
+                ORDER BY CCOD";
+            }
+            else if (category == "OFFICER-2")
+            {
+                // TABLE
+                //tableName = $"MasterStaff_Pay_{month}_{year}";
+                tableName = $"MasterOfficer_Pay_{month}_{year}";
+                reportname = "PFLOAN_JFCL";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE PFLOANBLN> 0
+                AND PFPLC=4
+                ORDER BY CCOD";
+            }
+            else if (category == "STAFF-1")
+            {
+                // TABLE
+                //tableName = $"MasterWorkerNps_Pay_{month}_{year}";
+                tableName = $"MasterStaff_Pay_{month}_{year}";
+                reportname = "PFLOAN_JFCL";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE PFLOANBLN> 0
+                AND PFPLC=4
+                ORDER BY CCOD";
+            }
+            else if (category == "STAFF-2")
+            {
+                // TABLE
+                //tableName = $"MasterWorkerNps_Pay_{month}_{year}";
+                tableName = $"MasterStaff_Pay_{month}_{year}";
+                reportname = "PFLOAN_JFCL";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE PFLOANBLN> 0
+                AND PFPLC!=4
+                ORDER BY CCOD";
+            }
+            else if (category == "NPS-1")
+            {
+                // TABLE
+                tableName = $"MasterWorkerNps_Pay_{month}_{year}";
+                reportname = "PFLOAN_JFCL";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE PFLOANBLN> 0
+                AND PFPLC=4
+                ORDER BY CCOD";
+            }
+            else if (category == "NPS-2")
+            {
+                // TABLE
+                tableName = $"MasterWorkerNps_Pay_{month}_{year}";
+                reportname = "PFLOAN_JFCL";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE PFLOANBLN> 0
+                AND PFPLC!=4
+                ORDER BY CCOD";
+            }
+            else if (category == "WAGES-1")
+            {
+                // TABLE
+                tableName = $"MasterWorkerWages_Pay_{month}_{year}";
+                reportname = "PFLOAN_JFCL";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE PFLOANBLN> 0
+                AND PFPLC=4
+                ORDER BY CCOD";
+            }
+            else if (category == "WAGES-2")
+            {
+                // TABLE
+                tableName = $"MasterWorkerWages_Pay_{month}_{year}";
+                reportname = "PFLOAN_JFCL";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE PFLOANBLN> 0
+                AND PFPLC!=4
+                ORDER BY CCOD";
+            }
 
             DataSet ds = GetData(connectionString, query);
 
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No P.F Loan data found for the selected category");
 
-            crp = LoadReport(dbName, "PFLoan", ds);
+            crp = LoadReport(dbName, reportname, "PFLOAN", ds);
             ExportReport(crp, "PFLoan");
         }
         catch (Exception ex)
