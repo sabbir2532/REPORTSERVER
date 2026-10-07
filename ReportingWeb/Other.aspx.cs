@@ -544,12 +544,16 @@ public partial class Other : System.Web.UI.Page
             ValidateParameters(dbName, category);
 
             string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
             string tableName = GetTableName(category, month, year);
-
+            string reportName = "WFLOAN";
             string query = $@"
-                SELECT EMPNO, EMPNAME, WFLOCAL, WFLOCALADV 
+                SELECT *
                 FROM [{tableName}]
-                WHERE WFLOCAL > 0
+                WHERE LCWFBLN > 0 
                 ORDER BY EMPNO";
 
             DataSet ds = GetData(connectionString, query);
@@ -557,7 +561,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No W.F Loan (Local) data found for the selected category");
 
-            crp = LoadReport(dbName, "WFLoanLocal", ds);
+            crp = LoadReport(dbName, reportName,"WFLOAN", ds);
             ExportReport(crp, "WFLoanLocal");
         }
         catch (Exception ex)
@@ -584,12 +588,16 @@ public partial class Other : System.Web.UI.Page
             ValidateParameters(dbName, category);
 
             string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
             string tableName = GetTableName(category, month, year);
-
+            string reportName = "WFLOAN_OTHER";
             string query = $@"
-                SELECT EMPNO, EMPNAME, WFOTHER, WFOTHERADV 
+                SELECT *
                 FROM [{tableName}]
-                WHERE WFOTHER > 0
+                WHERE WFLOANBLN > 0 
                 ORDER BY EMPNO";
 
             DataSet ds = GetData(connectionString, query);
@@ -597,7 +605,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No W.F Loan (Other) data found for the selected category");
 
-            crp = LoadReport(dbName, "WFLoanOther", ds);
+            crp = LoadReport(dbName, reportName,"WFLOAN", ds);
             ExportReport(crp, "WFLoanOther");
         }
         catch (Exception ex)
