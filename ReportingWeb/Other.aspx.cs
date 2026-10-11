@@ -665,7 +665,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No FC data found");
 
-            crp = LoadReport(dbName, reportName, ds);
+            crp = LoadReport(dbName, reportName,"FC", ds);
             ExportReport(crp, reportName);
         }
         catch (Exception ex)
