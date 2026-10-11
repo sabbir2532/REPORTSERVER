@@ -47,7 +47,7 @@ public partial class Other : System.Web.UI.Page
                         GenerateOvertimeReport();
                         break;
                     case "FESTIVAL":
-                        GenerateFestivalReport();
+                        //GenerateFestivalReport();
                         break;
                     case "BAISAKHI":
                         GenerateBaisakhiReport();
@@ -738,8 +738,6 @@ public partial class Other : System.Web.UI.Page
 
             }
 
-
-
             DataSet ds = GetData(connectionString, query);
 
             if (ds.Tables[0].Rows.Count == 0)
@@ -773,61 +771,113 @@ public partial class Other : System.Web.UI.Page
             ValidateParameters(dbName, category);
 
             string connectionString = GetConnectionString(dbName);
-            string tableName = GetTableName("OFFICER", month, year);
-
-            string query = $@"
-                SELECT EMPNO, EMPNAME, OTHOUR, OTAMNT 
+            string tableName = "";
+            string query = "";
+            if (category == "SUMMARY")
+            {
+                tableName = "OvertimeView";
+                reportName = "Sum";
+                query = $@"
+                SELECT *
                 FROM [{tableName}]
-                WHERE OTAMNT > 0
-                ORDER BY EMPNO";
+                ORDER BY CCOD";
+
+            }
+            else if (category == "AGRANI")
+            {
+                tableName = "OvertimeBankView";
+                reportName = "BankStatement";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='AGRANI'
+                ORDER BY ACNO";
+
+            }
+            else if (category == "ISLAMI")
+            {
+                tableName = "OvertimeBankView";
+                reportName = "BankStatement";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='ISLAMI'
+                ORDER BY ACNO";
+
+            }
+            else if (category == "JANATA")
+            {
+                tableName = "OvertimeBankView";
+                reportName = "BankStatement";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='JANATA'
+                ORDER BY ACNO";
+
+            }
+            else if (category == "RUPALI")
+            {
+                tableName = "OvertimeBankView";
+                reportName = "BankStatement";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='RUPALI'
+                ORDER BY ACNO";
+
+            }
+            else if (category == "AGRANILETTER")
+            {
+                reportName = "BankLetterAgrani";
+                tableName = "OvertimeNetPay";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE CSHBNK='AGRANI'
+                ";
+
+            }
+            else if (category == "ISLAMIETTER")
+            {
+                reportName = "BankLetterAgrani";
+                tableName = "OvertimeNetPay";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE CSHBNK='ISLAMI'
+                ";
+
+            }
+            else if (category == "RUPALILETTER")
+            {
+                reportName = "BankLetterAgrani";
+                tableName = "OvertimeNetPay";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE CSHBNK='RUPALI'
+                ";
+
+            }
+            else if (category == "JANATAETTER")
+            {
+                reportName = "BankLetterAgrani";
+                tableName = "OvertimeNetPay";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE CSHBNK='JANATA'
+                ";
+
+            }
 
             DataSet ds = GetData(connectionString, query);
 
             if (ds.Tables[0].Rows.Count == 0)
-                throw new Exception("No Overtime data found");
+                throw new Exception("No FC data found");
 
-            crp = LoadReport(dbName, reportName, ds);
-            ExportReport(crp, reportName);
-        }
-        catch (Exception ex)
-        {
-            HandleError(ex);
-        }
-        finally
-        {
-            DisposeReport(crp);
-        }
-    }
-
-    private void GenerateFestivalReport()
-    {
-        ReportDocument crp = null;
-
-        try
-        {
-            string dbName = Request.QueryString["key"];
-            string category = Request.QueryString["category"];
-            string month = Request.QueryString["mnt"];
-            string year = Request.QueryString["year"];
-            string reportName = GetSpecialReportName("FESTIVAL", category);
-
-            ValidateParameters(dbName, category);
-
-            string connectionString = GetConnectionString(dbName);
-            string tableName = GetTableName("OFFICER", month, year);
-
-            string query = $@"
-                SELECT EMPNO, EMPNAME, FESTAMNT, FESTADV 
-                FROM [{tableName}]
-                WHERE FESTAMNT > 0
-                ORDER BY EMPNO";
-
-            DataSet ds = GetData(connectionString, query);
-
-            if (ds.Tables[0].Rows.Count == 0)
-                throw new Exception("No Festival data found");
-
-            crp = LoadReport(dbName, reportName, ds);
+            crp = LoadReport(dbName, reportName, "FC", ds);
             ExportReport(crp, reportName);
         }
         catch (Exception ex)
