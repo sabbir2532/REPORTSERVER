@@ -875,9 +875,9 @@ public partial class Other : System.Web.UI.Page
             DataSet ds = GetData(connectionString, query);
 
             if (ds.Tables[0].Rows.Count == 0)
-                throw new Exception("No FC data found");
+                throw new Exception("No OVERTIME data found");
 
-            crp = LoadReport(dbName, reportName, "FC", ds);
+            crp = LoadReport(dbName, reportName, "OVERTIME", ds);
             ExportReport(crp, reportName);
         }
         catch (Exception ex)
