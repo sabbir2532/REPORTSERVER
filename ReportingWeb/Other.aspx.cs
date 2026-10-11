@@ -700,7 +700,7 @@ public partial class Other : System.Web.UI.Page
                 query = $@"
                 SELECT *
                 FROM [{tableName}]
-                WHERE BNKNAM='AGRANI'
+                WHERE CSHBNK='AGRANI'
                 ";
 
             }
@@ -711,7 +711,7 @@ public partial class Other : System.Web.UI.Page
                 query = $@"
                 SELECT *
                 FROM [{tableName}]
-                WHERE BNKNAM='ISLAMI'
+                WHERE CSHBNK='ISLAMI'
                 ";
 
             }
@@ -722,7 +722,7 @@ public partial class Other : System.Web.UI.Page
                 query = $@"
                 SELECT *
                 FROM [{tableName}]
-                WHERE BNKNAM='RUPALI'
+                WHERE CSHBNK='RUPALI'
                 ";
 
             }
@@ -733,7 +733,7 @@ public partial class Other : System.Web.UI.Page
                 query = $@"
                 SELECT *
                 FROM [{tableName}]
-                WHERE BNKNAM='JANATA'
+                WHERE CSHBNK='JANATA'
                 ";
 
             }
