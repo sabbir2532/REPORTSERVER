@@ -43,7 +43,7 @@ public partial class Other : System.Web.UI.Page
                     case "FC":
                         GenerateFCReport();
                         break;
-                    case "OVERTIME":
+                    case "OVERTIME_STAFF":
                         GenerateOvertimeReport();
                         break;
                     case "FESTIVAL":
