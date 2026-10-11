@@ -637,13 +637,28 @@ public partial class Other : System.Web.UI.Page
             ValidateParameters(dbName, category);
 
             string connectionString = GetConnectionString(dbName);
-            string tableName = GetTableName("OFFICER", month, year);
+            string tableName = "";
+            if (category == "SUMMARY")
+            {
+                tableName = "fcView";
+                reportName = "FcOfficerSum";
+            }
+            else if (category == "BANKSTATEMENT")
+            {
+                tableName = "fcBankView";
+                reportName = "BankStatement";
+            }
+            else
+            {
+                reportName = "BankLetterAgrani";
+                tableName = "fcNetPay";
+            }
+                
 
             string query = $@"
-                SELECT EMPNO, EMPNAME, FCAMNT, FCADV 
+                SELECT *
                 FROM [{tableName}]
-                WHERE FCAMNT > 0
-                ORDER BY EMPNO";
+                ORDER BY ACNO";
 
             DataSet ds = GetData(connectionString, query);
 
