@@ -638,27 +638,107 @@ public partial class Other : System.Web.UI.Page
 
             string connectionString = GetConnectionString(dbName);
             string tableName = "";
+            string query = "";
             if (category == "SUMMARY")
             {
                 tableName = "fcView";
                 reportName = "FcOfficerSum";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                ORDER BY CCOD";
+
             }
-            else if (category == "BANKSTATEMENT")
+            else if (category == "AGRANI")
             {
                 tableName = "fcBankView";
                 reportName = "BankStatement";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='AGRANI'
+                ORDER BY ACNO";
+
             }
-            else
+            else if (category == "ISLAMI")
+            {
+                tableName = "fcBankView";
+                reportName = "BankStatement";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='ISLAMI'
+                ORDER BY ACNO";
+
+            }
+            else if (category == "JANATA")
+            {
+                tableName = "fcBankView";
+                reportName = "BankStatement";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='JANATA'
+                ORDER BY ACNO";
+
+            }
+            else if (category == "RUPALI")
+            {
+                tableName = "fcBankView";
+                reportName = "BankStatement";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='RUPALI'
+                ORDER BY ACNO";
+
+            }
+            else if (category == "AGRANILETTER")
             {
                 reportName = "BankLetterAgrani";
                 tableName = "fcNetPay";
-            }
-                
-
-            string query = $@"
+                query = $@"
                 SELECT *
                 FROM [{tableName}]
-                ORDER BY ACNO";
+                WHERE BNKNAM='AGRANI'
+                ";
+
+            }
+            else if (category == "ISLAMIETTER")
+            {
+                reportName = "BankLetterAgrani";
+                tableName = "fcNetPay";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='ISLAMI'
+                ";
+
+            }
+            else if (category == "RUPALILETTER")
+            {
+                reportName = "BankLetterAgrani";
+                tableName = "fcNetPay";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='RUPALI'
+                ";
+
+            }
+            else if (category == "JANATAETTER")
+            {
+                reportName = "BankLetterAgrani";
+                tableName = "fcNetPay";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='JANATA'
+                ";
+
+            }
+
+
 
             DataSet ds = GetData(connectionString, query);
 
