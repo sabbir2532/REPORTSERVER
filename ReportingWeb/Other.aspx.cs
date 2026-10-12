@@ -46,6 +46,12 @@ public partial class Other : System.Web.UI.Page
                     case "OVERTIME_STAFF":
                         GenerateOvertimeReport();
                         break;
+                    case "OVERTIME_NPS":
+                        GenerateOvertimenpsReport();
+                        break;
+                    case "OVERTIME_WAGES":
+                        GenerateOvertimewagesReport();
+                        break;
                     case "FESTIVAL":
                         //GenerateFestivalReport();
                         break;
@@ -878,6 +884,272 @@ public partial class Other : System.Web.UI.Page
                 throw new Exception("No OVERTIME data found");
 
             crp = LoadReport(dbName, reportName, "OVERTIME", ds);
+            ExportReport(crp, reportName);
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+    private void GenerateOvertimenpsReport()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+            string reportName = GetSpecialReportName("OVERTIME", category);
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            string tableName = "";
+            string query = "";
+            if (category == "SUMMARY")
+            {
+                tableName = "OvertimeNPSView";
+                reportName = "Sum";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                ORDER BY CCOD";
+
+            }
+            else if (category == "AGRANI")
+            {
+                tableName = "OvertimeNPSBankView";
+                reportName = "BankStatement";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='AGRANI'
+                ORDER BY ACNO";
+
+            }
+            else if (category == "ISLAMI")
+            {
+                tableName = "OvertimeNPSBankView";
+                reportName = "BankStatement";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='ISLAMI'
+                ORDER BY ACNO";
+
+            }
+            else if (category == "JANATA")
+            {
+                tableName = "OvertimeNPSBankView";
+                reportName = "BankStatement";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='JANATA'
+                ORDER BY ACNO";
+
+            }
+            else if (category == "RUPALI")
+            {
+                tableName = "OvertimeNPSBankView";
+                reportName = "BankStatement";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='RUPALI'
+                ORDER BY ACNO";
+
+            }
+            else if (category == "AGRANILETTER")
+            {
+                reportName = "BankLetterAgrani";
+                tableName = "OvertimeNPSNetPay";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE CSHBNK='AGRANI'
+                ";
+
+            }
+            else if (category == "ISLAMIETTER")
+            {
+                reportName = "BankLetterAgrani";
+                tableName = "OvertimeNPSNetPay";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE CSHBNK='ISLAMI'
+                ";
+
+            }
+            else if (category == "RUPALILETTER")
+            {
+                reportName = "BankLetterAgrani";
+                tableName = "OvertimeNPSNetPay";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE CSHBNK='RUPALI'
+                ";
+
+            }
+            else if (category == "JANATAETTER")
+            {
+                reportName = "BankLetterAgrani";
+                tableName = "OvertimeNPSNetPay";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE CSHBNK='JANATA'
+                ";
+
+            }
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No OVERTIME_NPS data found");
+
+            crp = LoadReport(dbName, reportName, "OVERTIMENPS", ds);
+            ExportReport(crp, reportName);
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+    private void GenerateOvertimewagesReport()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+            string reportName = GetSpecialReportName("OVERTIME", category);
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            string tableName = "";
+            string query = "";
+            if (category == "SUMMARY")
+            {
+                tableName = "OvertimeWagesView";
+                reportName = "Sum";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                ORDER BY CCOD";
+
+            }
+            else if (category == "AGRANI")
+            {
+                tableName = "OvertimeWagesBankView";
+                reportName = "BankStatement";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='AGRANI'
+                ORDER BY ACNO";
+
+            }
+            else if (category == "ISLAMI")
+            {
+                tableName = "OvertimeWagesBankView";
+                reportName = "BankStatement";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='ISLAMI'
+                ORDER BY ACNO";
+
+            }
+            else if (category == "JANATA")
+            {
+                tableName = "OvertimeWagesBankView";
+                reportName = "BankStatement";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='JANATA'
+                ORDER BY ACNO";
+
+            }
+            else if (category == "RUPALI")
+            {
+                tableName = "OvertimeWagesBankView";
+                reportName = "BankStatement";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE BNKNAM='RUPALI'
+                ORDER BY ACNO";
+
+            }
+            else if (category == "AGRANILETTER")
+            {
+                reportName = "BankLetterAgrani";
+                tableName = "OvertimeWagesNetPay";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE CSHBNK='AGRANI'
+                ";
+
+            }
+            else if (category == "ISLAMIETTER")
+            {
+                reportName = "BankLetterAgrani";
+                tableName = "OvertimeWagesNetPay";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE CSHBNK='ISLAMI'
+                ";
+
+            }
+            else if (category == "RUPALILETTER")
+            {
+                reportName = "BankLetterAgrani";
+                tableName = "OvertimeWagesNetPay";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE CSHBNK='RUPALI'
+                ";
+
+            }
+            else if (category == "JANATAETTER")
+            {
+                reportName = "BankLetterAgrani";
+                tableName = "OvertimeWagesNetPay";
+                query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE CSHBNK='JANATA'
+                ";
+
+            }
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No OVERTIME_wages data found");
+
+            crp = LoadReport(dbName, reportName, "OVERTIMEWAGES", ds);
             ExportReport(crp, reportName);
         }
         catch (Exception ex)
