@@ -61,6 +61,69 @@ public partial class Other : System.Web.UI.Page
                     case "bankst":
                         GenerateBankSt();
                         break;
+                    case "CPPF":
+                        GenerateCPPF();
+                        break;
+                    case "WFSUBS":
+                        GenerateWFSUBS();
+                        break;
+                    case "SALADV":
+                        GenerateSALADV();
+                        break;
+                    case "AITADV":
+                        GenerateAITADV();
+                        break;
+                    case "MISADD":
+                        GenerateMISADD();
+                        break;
+                    case "MEDADV":
+                        GenerateMEDADV();
+                        break;
+                    case "TELEXP":
+                        GenerateTELEXP();
+                        break;
+                    case "TRANSEXP":
+                        GenerateTRANSEXP();
+                        break;
+                    case "DISH":
+                        GenerateDISH();
+                        break;
+                    case "DIPLO":
+                        GenerateDIPLO();
+                        break;
+                    case "HAZ":
+                        GenerateHAZ();
+                        break;
+                    case "OWA":
+                        GenerateOWA();
+                        break;
+                    case "LADClub":
+                        GenerateLADClub();
+                        break;
+                    case "EMPCLUB":
+                        GenerateEMPCLUB();
+                        break;
+                    case "CHEMSUB":
+                        GenerateCHEMSUB();
+                        break;
+                    case "HIBISUB":
+                        GenerateHIBISUB();
+                        break;
+                    case "ENGGSUB":
+                        GenerateENGGSUB();
+                        break;
+                    case "SCHOOLDUE":
+                        GenerateSCHOOLDUE();
+                        break;
+                    case "MAKTABSUB":
+                        GenerateMAKTABSUB();
+                        break;
+                    case "SONATANSUB":
+                        GenerateSONATANSUB();
+                        break;
+                    case "FACILITYADV":
+                        GenerateFACILITYADV();
+                        break;
                     default:
                         Response.Write("<h3>Error</h3>Invalid action specified");
                         break;
@@ -70,6 +133,930 @@ public partial class Other : System.Web.UI.Page
             {
                 Response.Write("<h3>Error</h3>No action specified");
             }
+        }
+    }
+
+    private void GenerateSONATANSUB()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE SANATANCHRG > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No SANATANCHRG data found for the selected category");
+
+            crp = LoadReport(dbName, "SANATANCHRG", "SALARYREPORTS", ds);
+            ExportReport(crp, "SANATANCHRG");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateFACILITYADV()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE FACILITYBLN > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No FACILITYBLN data found for the selected category");
+
+            crp = LoadReport(dbName, "FACILITYBLN", "SALARYREPORTS", ds);
+            ExportReport(crp, "FACILITYBLN");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateMAKTABSUB()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE MOSQUECHRG > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No MOSQUECHRG data found for the selected category");
+
+            crp = LoadReport(dbName, "MOSQUECHRG", "SALARYREPORTS", ds);
+            ExportReport(crp, "MOSQUECHRG");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateSCHOOLDUE()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE SCHOOLBLN > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No SCHOOLBLN data found for the selected category");
+
+            crp = LoadReport(dbName, "SCHOOLBLN", "SALARYREPORTS", ds);
+            ExportReport(crp, "SCHOOLBLN");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateENGGSUB()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE ENGGCHRG > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No ENGGCHRG data found for the selected category");
+
+            crp = LoadReport(dbName, "ENGGCHRG", "SALARYREPORTS", ds);
+            ExportReport(crp, "ENGGCHRG");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateHIBISUB()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE HIBICHRG > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No HIBICHRG data found for the selected category");
+
+            crp = LoadReport(dbName, "HIBICHRG", "SALARYREPORTS", ds);
+            ExportReport(crp, "HIBICHRG");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateCHEMSUB()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE CHEM_SCTY_CHRG > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No CHEM_SCTY_CHRG data found for the selected category");
+
+            crp = LoadReport(dbName, "CHEM_SCTY_CHRG", "SALARYREPORTS", ds);
+            ExportReport(crp, "CHEM_SCTY_CHRG");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateEMPCLUB()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE EMPCLBCHRG > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No EMPCLBCHRG data found for the selected category");
+
+            crp = LoadReport(dbName, "EMPCLBCHRG", "SALARYREPORTS", ds);
+            ExportReport(crp, "EMPCLBCHRG");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateLADClub()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE LADCLBCHRG > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No LADCLBCHRG data found for the selected category");
+
+            crp = LoadReport(dbName, "LADCLBCHRG", "SALARYREPORTS", ds);
+            ExportReport(crp, "LADCLBCHRG");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateOWA()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE OFFCLBCHRG > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No OFFCLBCHRG data found for the selected category");
+
+            crp = LoadReport(dbName, "OFFCLBCHRG", "SALARYREPORTS", ds);
+            ExportReport(crp, "OFFCLBCHRG");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateHAZ()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE HAZCHRG > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No HAZCHRG data found for the selected category");
+
+            crp = LoadReport(dbName, "HAZCHRG", "SALARYREPORTS", ds);
+            ExportReport(crp, "HAZCHRG");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateDIPLO()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE DIPLOCHRG > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No DIPLOCHRG data found for the selected category");
+
+            crp = LoadReport(dbName, "DIPLOCHRG", "SALARYREPORTS", ds);
+            ExportReport(crp, "DIPLOCHRG");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateDISH()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE DISHCHRG > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No DISHCHRG data found for the selected category");
+
+            crp = LoadReport(dbName, "DISHCHRG", "SALARYREPORTS", ds);
+            ExportReport(crp, "DISHCHRG");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateTRANSEXP()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE TRNSPBLNC > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No TRNSPBLNC data found for the selected category");
+
+            crp = LoadReport(dbName, "TRNSPBLNC", "SALARYREPORTS", ds);
+            ExportReport(crp, "TRNSPBLNC");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateTELEXP()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE TELCHRBLN > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No TELCHRBLN data found for the selected category");
+
+            crp = LoadReport(dbName, "TELCHRBLN", "SALARYREPORTS", ds);
+            ExportReport(crp, "TELCHRBLN");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateMEDADV()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE MEDDED > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No MEDEXPBLN data found for the selected category");
+
+            crp = LoadReport(dbName, "MEDEXPBLN", "SALARYREPORTS", ds);
+            ExportReport(crp, "MEDEXPBLN");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateMISADD()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE MISADD > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No MISADD data found for the selected category");
+
+            crp = LoadReport(dbName, "MISADD", "SALARYREPORTS", ds);
+            ExportReport(crp, "MISADD");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateAITADV()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE INCOMETAXBLN > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No AITADV data found for the selected category");
+
+            crp = LoadReport(dbName, "AITADV", "SALARYREPORTS", ds);
+            ExportReport(crp, "AITADV");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateSALADV()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE SALADVBLN > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No SALADVBLN data found for the selected category");
+
+            crp = LoadReport(dbName, "SALADVBLN", "SALARYREPORTS", ds);
+            ExportReport(crp, "SALADVBLN");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateWFSUBS()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE WFCHRG > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No WFCHRG data found for the selected category");
+
+            crp = LoadReport(dbName, "WFCHRG", "SALARYREPORTS", ds);
+            ExportReport(crp, "WFCHRG");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
+        }
+    }
+
+    private void GenerateCPPF()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE TELCHRBLN > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No CPPF data found for the selected category");
+
+            crp = LoadReport(dbName, "CPPF", "SALARYREPORTS", ds);
+            ExportReport(crp, "CPPF");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
         }
     }
 
