@@ -1003,7 +1003,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No WFCHRG data found for the selected category");
 
-            crp = LoadReport(dbName, "WFCHRG", "SALARYREPORTS", ds);
+            crp = LoadReport(dbName, "WFSUBS", "SALARYREPORTS", ds);
             ExportReport(crp, "WFCHRG");
         }
         catch (Exception ex)
