@@ -167,7 +167,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No SANATANCHRG data found for the selected category");
 
-            crp = LoadReport(dbName, "SANATANCHRG", "SALARYREPORTS", ds);
+            crp = LoadReport(dbName, "SONATANSUB", "SALARYREPORTS", ds);
             ExportReport(crp, "SANATANCHRG");
         }
         catch (Exception ex)
@@ -211,7 +211,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No FACILITYBLN data found for the selected category");
 
-            crp = LoadReport(dbName, "FACILITYBLN", "SALARYREPORTS", ds);
+            crp = LoadReport(dbName, "FACILITYADV", "SALARYREPORTS", ds);
             ExportReport(crp, "FACILITYBLN");
         }
         catch (Exception ex)
@@ -255,7 +255,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No MOSQUECHRG data found for the selected category");
 
-            crp = LoadReport(dbName, "MOSQUECHRG", "SALARYREPORTS", ds);
+            crp = LoadReport(dbName, "MAKTABSUB", "SALARYREPORTS", ds);
             ExportReport(crp, "MOSQUECHRG");
         }
         catch (Exception ex)
@@ -299,7 +299,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No SCHOOLBLN data found for the selected category");
 
-            crp = LoadReport(dbName, "SCHOOLBLN", "SALARYREPORTS", ds);
+            crp = LoadReport(dbName, "SCHOOLDUE", "SALARYREPORTS", ds);
             ExportReport(crp, "SCHOOLBLN");
         }
         catch (Exception ex)
@@ -343,7 +343,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No ENGGCHRG data found for the selected category");
 
-            crp = LoadReport(dbName, "ENGGCHRG", "SALARYREPORTS", ds);
+            crp = LoadReport(dbName, "ENGGSUB", "SALARYREPORTS", ds);
             ExportReport(crp, "ENGGCHRG");
         }
         catch (Exception ex)
@@ -387,7 +387,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No HIBICHRG data found for the selected category");
 
-            crp = LoadReport(dbName, "HIBICHRG", "SALARYREPORTS", ds);
+            crp = LoadReport(dbName, "HIBISUB", "SALARYREPORTS", ds);
             ExportReport(crp, "HIBICHRG");
         }
         catch (Exception ex)
@@ -431,7 +431,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No CHEM_SCTY_CHRG data found for the selected category");
 
-            crp = LoadReport(dbName, "CHEM_SCTY_CHRG", "SALARYREPORTS", ds);
+            crp = LoadReport(dbName, "CHEMSUB", "SALARYREPORTS", ds);
             ExportReport(crp, "CHEM_SCTY_CHRG");
         }
         catch (Exception ex)
@@ -519,7 +519,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No LADCLBCHRG data found for the selected category");
 
-            crp = LoadReport(dbName, "LADCLBCHRG", "SALARYREPORTS", ds);
+            crp = LoadReport(dbName, "LADClub", "SALARYREPORTS", ds);
             ExportReport(crp, "LADCLBCHRG");
         }
         catch (Exception ex)
@@ -563,7 +563,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No OFFCLBCHRG data found for the selected category");
 
-            crp = LoadReport(dbName, "OFFCLBCHRG", "SALARYREPORTS", ds);
+            crp = LoadReport(dbName, "OWA", "SALARYREPORTS", ds);
             ExportReport(crp, "OFFCLBCHRG");
         }
         catch (Exception ex)
@@ -607,7 +607,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No HAZCHRG data found for the selected category");
 
-            crp = LoadReport(dbName, "HAZCHRG", "SALARYREPORTS", ds);
+            crp = LoadReport(dbName, "HAZ", "SALARYREPORTS", ds);
             ExportReport(crp, "HAZCHRG");
         }
         catch (Exception ex)
@@ -651,7 +651,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No DIPLOCHRG data found for the selected category");
 
-            crp = LoadReport(dbName, "DIPLOCHRG", "SALARYREPORTS", ds);
+            crp = LoadReport(dbName, "DIPLO", "SALARYREPORTS", ds);
             ExportReport(crp, "DIPLOCHRG");
         }
         catch (Exception ex)
@@ -695,7 +695,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No DISHCHRG data found for the selected category");
 
-            crp = LoadReport(dbName, "DISHCHRG", "SALARYREPORTS", ds);
+            crp = LoadReport(dbName, "DISH", "SALARYREPORTS", ds);
             ExportReport(crp, "DISHCHRG");
         }
         catch (Exception ex)
@@ -739,7 +739,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No TRNSPBLNC data found for the selected category");
 
-            crp = LoadReport(dbName, "TRNSPBLNC", "SALARYREPORTS", ds);
+            crp = LoadReport(dbName, "TRANSEXP", "SALARYREPORTS", ds);
             ExportReport(crp, "TRNSPBLNC");
         }
         catch (Exception ex)
@@ -783,7 +783,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No TELCHRBLN data found for the selected category");
 
-            crp = LoadReport(dbName, "TELCHRBLN", "SALARYREPORTS", ds);
+            crp = LoadReport(dbName, "TELEXP", "SALARYREPORTS", ds);
             ExportReport(crp, "TELCHRBLN");
         }
         catch (Exception ex)
@@ -827,7 +827,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No MEDEXPBLN data found for the selected category");
 
-            crp = LoadReport(dbName, "MEDEXPBLN", "SALARYREPORTS", ds);
+            crp = LoadReport(dbName, "MEDADV", "SALARYREPORTS", ds);
             ExportReport(crp, "MEDEXPBLN");
         }
         catch (Exception ex)
@@ -959,7 +959,7 @@ public partial class Other : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count == 0)
                 throw new Exception("No SALADVBLN data found for the selected category");
 
-            crp = LoadReport(dbName, "SALADVBLN", "SALARYREPORTS", ds);
+            crp = LoadReport(dbName, "SALADV", "SALARYREPORTS", ds);
             ExportReport(crp, "SALADVBLN");
         }
         catch (Exception ex)
