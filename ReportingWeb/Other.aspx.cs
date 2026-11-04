@@ -124,6 +124,9 @@ public partial class Other : System.Web.UI.Page
                     case "FACILITYADV":
                         GenerateFACILITYADV();
                         break;
+                    case "MISDED":
+                        GenerateMISDED();
+                        break;
                     default:
                         Response.Write("<h3>Error</h3>Invalid action specified");
                         break;
@@ -133,6 +136,50 @@ public partial class Other : System.Web.UI.Page
             {
                 Response.Write("<h3>Error</h3>No action specified");
             }
+        }
+    }
+
+    private void GenerateMISDED()
+    {
+        ReportDocument crp = null;
+
+        try
+        {
+            string dbName = Request.QueryString["key"];
+            string category = Request.QueryString["category"];
+            string month = Request.QueryString["mnt"];
+            string year = Request.QueryString["year"];
+
+            ValidateParameters(dbName, category);
+
+            string connectionString = GetConnectionString(dbName);
+            if (category == "NPS")
+                category = "WorkerNps";
+            else if (category == "WAGES")
+                category = "WorkerWages";
+            string tableName = GetTableName(category, month, year);
+
+            string query = $@"
+                SELECT *
+                FROM [{tableName}]
+                WHERE LHB_INTEREST_DED > 0
+                ORDER BY EMPNO";
+
+            DataSet ds = GetData(connectionString, query);
+
+            if (ds.Tables[0].Rows.Count == 0)
+                throw new Exception("No MISDED data found for the selected category");
+
+            crp = LoadReport(dbName, "MISDED", "SALARYREPORTS", ds);
+            ExportReport(crp, "MISDED");
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+        finally
+        {
+            DisposeReport(crp);
         }
     }
 
