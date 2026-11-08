@@ -1317,6 +1317,7 @@ public partial class _Default : Page
             [YEAR],
             [MONTH],
             COUNT(EMPNO) AS TOTALEMP,
+            MAX(PFNUM) AS PFNUM,
             /* ---------------- EARNINGS ---------------- */
             SUM(ISNULL(BASIC_EARN,0))            AS BASIC_EARN,
             SUM(ISNULL(HOUSERENTALW_AUTO,0))     AS HOUSERENTALW_AUTO,
