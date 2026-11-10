@@ -48,7 +48,22 @@ public partial class _Default : Page
 
     }
 
+    private string GetConnectionString(string dbName)
+    {
+        return $"Server=103.7.112.190,1433;" +
+               $"Database={dbName};" +
+               $"User Id=myuser;" +
+               $"Password=1234;" +
+               $"TrustServerCertificate=True;";
+    }
+    private void ValidateParameters(string dbName, string category)
+    {
+        if (string.IsNullOrEmpty(dbName))
+            throw new Exception("Database name is missing");
 
+        if (string.IsNullOrEmpty(category))
+            throw new Exception("Category is missing");
+    }
     private void GenerateReport()
     {
         ReportDocument crp = null;
@@ -89,12 +104,12 @@ public partial class _Default : Page
             // 3. CONNECTION STRING
             // =========================================
 
-            string connectionString =
-     $"Server=103.7.112.190,1433;" +
-     $"Database={dbName};" +
-     $"User Id=myuser;" +
-     $"Password=1234;" +
-     $"TrustServerCertificate=True;";
+            string connectionString = GetConnectionString(dbName);
+     //       $"Server=103.7.112.190,1433;" +
+     //$"Database={dbName};" +
+     //$"User Id=myuser;" +
+     //$"Password=1234;" +
+     //$"TrustServerCertificate=True;";
 
             // =========================================
             // 4. DYNAMIC TABLE
@@ -310,12 +325,12 @@ public partial class _Default : Page
                 throw new Exception("empCategory missing");
 
             // CONNECTION
-            string connectionString =
-       $"Server=103.7.112.190,1433;" +
-       $"Database={dbName};" +
-       $"User Id=myuser;" +
-       $"Password=1234;" +
-       $"TrustServerCertificate=True;";
+            string connectionString = GetConnectionString(dbName);
+       //     $"Server=103.7.112.190,1433;" +
+       //$"Database={dbName};" +
+       //$"User Id=myuser;" +
+       //$"Password=1234;" +
+       //$"TrustServerCertificate=True;";
             string tableName = "";
             if (empCategory== "OFFICER")
             {
@@ -449,12 +464,12 @@ public partial class _Default : Page
             // CONNECTION
             // =========================================
 
-            string connectionString =
-      $"Server=103.7.112.190,1433;" +
-      $"Database={dbName};" +
-      $"User Id=myuser;" +
-      $"Password=1234;" +
-      $"TrustServerCertificate=True;";
+            string connectionString = GetConnectionString(dbName);
+      //      $"Server=103.7.112.190,1433;" +
+      //$"Database={dbName};" +
+      //$"User Id=myuser;" +
+      //$"Password=1234;" +
+      //$"TrustServerCertificate=True;";
 
             // =========================================
             // TABLE NAME
@@ -623,12 +638,12 @@ public partial class _Default : Page
             // CONNECTION
             // =====================================
 
-            string connectionString =
-       $"Server=103.7.112.190,1433;" +
-       $"Database={dbName};" +
-       $"User Id=myuser;" +
-       $"Password=1234;" +
-       $"TrustServerCertificate=True;";
+            string connectionString = GetConnectionString(dbName);
+       //     $"Server=103.7.112.190,1433;" +
+       //$"Database={dbName};" +
+       //$"User Id=myuser;" +
+       //$"Password=1234;" +
+       //$"TrustServerCertificate=True;";
 
             // =====================================
             // TABLE NAME
@@ -746,12 +761,12 @@ public partial class _Default : Page
             // CONNECTION
             // =====================================
 
-            string connectionString =
-       $"Server=103.7.112.190,1433;" +
-       $"Database={dbName};" +
-       $"User Id=myuser;" +
-       $"Password=1234;" +
-       $"TrustServerCertificate=True;";
+            string connectionString = GetConnectionString(dbName);
+       //     $"Server=103.7.112.190,1433;" +
+       //$"Database={dbName};" +
+       //$"User Id=myuser;" +
+       //$"Password=1234;" +
+       //$"TrustServerCertificate=True;";
 
             // =====================================
             // TABLE NAME - Based on Type parameter
@@ -998,12 +1013,12 @@ public partial class _Default : Page
             // CONNECTION
             // =====================================
 
-            string connectionString =
-       $"Server=103.7.112.190,1433;" +
-       $"Database={dbName};" +
-       $"User Id=myuser;" +
-       $"Password=1234;" +
-       $"TrustServerCertificate=True;";
+            string connectionString = GetConnectionString(dbName);
+       //     $"Server=103.7.112.190,1433;" +
+       //$"Database={dbName};" +
+       //$"User Id=myuser;" +
+       //$"Password=1234;" +
+       //$"TrustServerCertificate=True;";
 
             // =====================================
             // TABLE NAME
@@ -1284,12 +1299,12 @@ public partial class _Default : Page
             // =====================================
             // CONNECTION
             // =====================================
-            string connectionString =
-                $"Server=103.7.112.190,1433;" +
-                $"Database={dbName};" +
-                $"User Id=myuser;" +
-                $"Password=1234;" +
-                $"TrustServerCertificate=True;";
+            string connectionString = GetConnectionString(dbName);
+            //$"Server=103.7.112.190,1433;" +
+            //    $"Database={dbName};" +
+            //    $"User Id=myuser;" +
+            //    $"Password=1234;" +
+            //    $"TrustServerCertificate=True;";
 
             // =====================================
             // TABLE NAME (whitelisted)
@@ -1561,12 +1576,12 @@ public partial class _Default : Page
             // CONNECTION
             // =====================================
 
-            string connectionString =
-       $"Server=103.7.112.190,1433;" +
-       $"Database={dbName};" +
-       $"User Id=myuser;" +
-       $"Password=1234;" +
-       $"TrustServerCertificate=True;";
+            string connectionString = GetConnectionString(dbName);
+       //     $"Server=103.7.112.190,1433;" +
+       //$"Database={dbName};" +
+       //$"User Id=myuser;" +
+       //$"Password=1234;" +
+       //$"TrustServerCertificate=True;";
 
             // =====================================
             // TABLE NAME
