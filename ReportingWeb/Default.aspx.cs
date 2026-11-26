@@ -626,7 +626,7 @@ public partial class _Default : Page
             string reportName = Request.QueryString["reportName"];
 
             if (string.IsNullOrEmpty(reportName))
-                reportName = "BillSum";
+                reportName = "BillSum_new";
 
             if (string.IsNullOrEmpty(dbName))
                 throw new Exception("Database missing");
