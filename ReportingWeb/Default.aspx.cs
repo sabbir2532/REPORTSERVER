@@ -623,7 +623,7 @@ public partial class _Default : Page
             string mnt = Request.QueryString["mnt"];
             string year = Request.QueryString["year"];
             string dbName = Request.QueryString["key"];
-            string reportName = Request.QueryString["reportName"];
+            string reportName ="" ;// Request.QueryString["reportName"];
 
             if (string.IsNullOrEmpty(reportName))
                 reportName = "BillSum_new";
